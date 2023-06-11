@@ -1,0 +1,150 @@
+baseURL: "https://examplesite.com/"
+title: Chic'Study
+paginate: 10
+theme: PaperMod
+
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+
+googleAnalytics: UA-123-45
+
+minify:
+  disableXML: true
+  minifyOutput: true
+
+# for Search Page
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON # is necessary
+
+params:
+  env: production # to enable google analytics, opengraph, twitter-cards and schema.
+  title: Chic'Study
+  description: "Keeping a small record of what I've learned for Data Analysis"
+  keywords: [Blog, Portfolio, PaperMod]
+  author: Chichead
+  # author: ["Me", "You"] # multiple authors
+  images: ["<link or path of image for opengraph, twitter-cards>"]
+  DateFormat: "January 2, 2006"
+  defaultTheme: auto # dark, light
+  disableThemeToggle: false
+
+  ShowReadingTime: true
+  ShowShareButtons: true
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: true
+  ShowCodeCopyButtons: true
+  ShowWordCount: true
+  ShowRssButtonInSectionTermList: true
+  UseHugoToc: true
+  disableSpecial1stPost: false
+  disableScrollToTop: false
+  comments: false
+  hidemeta: false
+  hideSummary: false
+  showtoc: false
+  tocopen: false
+  math: true
+
+  assets:
+    # disableHLJS: true # to disable highlight.js
+    # disableFingerprinting: true
+    favicon: "/favicon/favicon.ico"
+    favicon16x16: "/favicon/favicon-16x16.png"
+    favicon32x32: "/favicon/favicon-32x32.png"
+    apple_touch_icon: "/favicon/apple-touch-icon.png"
+    safari_pinned_tab: "<link / abs url>"
+
+  label:
+    text: "Chic'Study"
+    icon: /favicon/apple-touch-icon.png
+    iconHeight: 35
+
+  # profile-mode
+  profileMode:
+    enabled: false # needs to be explicitly set
+    title: ExampleSite
+    subtitle: "This is subtitle"
+    imageUrl: "<img location>"
+    imageWidth: 120
+    imageHeight: 120
+    imageTitle: my image
+    buttons:
+      - name: Posts
+        url: posts
+      - name: Tags
+        url: tags
+
+  # home-info mode
+  homeInfoParams:
+    Title: "꼬끼오 공부방"
+    Content: 데이터 분석을 하며 공부한 내용을 소소하게 기록합니다
+
+  socialIcons:
+    - name: github
+      url: "https://github.com/chichead"
+    - name: instagram
+      url: "https://www.instagram.com/ahnhyemin/"
+    - name: linkedin
+      url: "https://www.linkedin.com/in/anhyemin/"
+    - name: Email
+      url: "mailto:adios9709@gmail.com"
+
+
+  analytics:
+    google:
+      SiteVerificationTag: "G-YZCBLF5F53"
+
+
+  cover:
+    hidden: true # hide everywhere but not in structured data
+    hiddenInList: true # hide on list pages and home
+    hiddenInSingle: true # hide on single page
+
+  editPost:
+    URL: "https://github.com/<path_to_repo>/content"
+    Text: "Suggest Changes" # edit text
+    appendFilePath: true # to append file path to Edit link
+
+  # for search
+  # https://fusejs.io/api/options.html
+  fuseOpts:
+    isCaseSensitive: false
+    shouldSort: true
+    location: 0
+    distance: 1000
+    threshold: 0.4
+    minMatchCharLength: 0
+    keys: ["title", "permalink", "summary", "content"]
+menu:
+  main:
+    - identifier: Posts
+      name: Posts
+      url: /Posts/
+      weight: 10
+    - identifier: Categories
+      name: Categories
+      url: /Categories/
+      weight: 20
+    - identifier: Search
+      name: Search
+      url: /Search/
+      weight: 30
+# Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
+pygmentsUseClasses: true
+markup:
+  highlight:
+    noClasses: false
+  tableOfContents:
+    endLevel: 2
+    ordered: false
+    startLevel: 2
+    # anchorLineNos: true
+    # codeFences: true
+    # guessSyntax: true
+    # lineNos: true
+    # style: monokai
