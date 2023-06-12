@@ -8,7 +8,7 @@ buildDrafts: false
 buildFuture: false
 buildExpired: false
 
-googleAnalytics: UA-123-45
+googleAnalytics: G-YZCBLF5F53
 
 minify:
   disableXML: true
@@ -97,7 +97,7 @@ params:
 
   analytics:
     google:
-      SiteVerificationTag: "G-YZCBLF5F53"
+      SiteVerificationTag: "rFfSV0XOUcCLeUDzkSIw1RTh6R7mKCN8GDsvyimvR7Q"
 
 
   cover:
