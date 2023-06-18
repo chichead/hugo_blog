@@ -8,7 +8,7 @@ buildDrafts: false
 buildFuture: false
 buildExpired: false
 
-googleAnalytics: UA-123-45
+googleAnalytics: G-YZCBLF5F53
 
 minify:
   disableXML: true
@@ -97,7 +97,7 @@ params:
 
   analytics:
     google:
-      SiteVerificationTag: "G-YZCBLF5F53"
+      SiteVerificationTag: "rFfSV0XOUcCLeUDzkSIw1RTh6R7mKCN8GDsvyimvR7Q"
 
 
   cover:
@@ -106,7 +106,7 @@ params:
     hiddenInSingle: true # hide on single page
 
   editPost:
-    URL: "https://github.com/chichead/hugo_blog/blob/main/content/"
+    URL: "https://github.com/chichead/hugo_blog/blob/main/content"
     Text: "Suggest Changes" # edit text
     appendFilePath: true # to append file path to Edit link
 
