@@ -24,7 +24,7 @@ outputs:
 params:
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
   title: Chic'Study
-  description: "Keeping a small record of what I've learned for Data Analysis"
+  description: "Keeping a small record of what I've learned for Data Analysis. Sometimes I do other stuff."
   keywords: [Blog, Portfolio, PaperMod]
   author: Chichead
   # author: ["Me", "You"] # multiple authors
@@ -82,7 +82,7 @@ params:
   # home-info mode
   homeInfoParams:
     Title: "꼬끼오 공부방"
-    Content: 데이터 분석을 하며 공부한 내용을 소소하게 기록합니다
+    Content: 데이터 분석을 하며 공부한 내용을 소소하게 기록합니다. 가끔 딴짓거리도 합니다.
 
   socialIcons:
     - name: github
@@ -142,14 +142,18 @@ menu:
       name: Posts
       url: /Posts/
       weight: 10
+    - identifier: Notes
+      name: Notes
+      url: /notes/
+      weight: 20
     - identifier: Categories
       name: Categories
       url: /Categories/
-      weight: 20
+      weight: 30
     - identifier: Search
       name: Search
       url: /Search/
-      weight: 30
+      weight: 40
 # Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
 pygmentsUseClasses: true
 markup:
