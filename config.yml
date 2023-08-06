@@ -34,7 +34,7 @@ params:
   disableThemeToggle: false
 
   ShowReadingTime: true
-  ShowShareButtons: true
+  ShowShareButtons: false
   ShowPostNavLinks: true
   ShowBreadCrumbs: true
   ShowCodeCopyButtons: true
@@ -120,6 +120,22 @@ params:
     threshold: 0.4
     minMatchCharLength: 0
     keys: ["title", "permalink", "summary", "content"]
+
+  giscus:
+    repo : "chichead/hugo_blog"
+    repoID : "R_kgDOJuBhZQ"
+    category : "Announcements"
+    categoryID : "DIC_kwDOJuBhZc4CYYgQ"
+    mapping : "og:title"
+    dataStrict : "1"
+    reactionsEnabled : "1"
+    emitMetadata : "0"
+    inputPosition : "bottom"
+    theme : "preferred_color_scheme"
+    lang : "ko"
+    loading : "lazy"
+
+
 menu:
   main:
     - identifier: Posts

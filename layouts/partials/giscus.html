@@ -1,0 +1,20 @@
+{{- if isset .Site.Params "giscus" -}}
+  {{- if and (isset .Site.Params.giscus "repo") (not (eq .Site.Params.giscus.repo "" )) (eq (.Params.disable_comments | default false) false) -}}
+<script src="https://giscus.app/client.js"
+    data-repo="chichead/hugo_blog"
+    data-repo-id="R_kgDOJuBhZQ"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOJuBhZc4CYYgQ"
+    data-mapping="og:title"
+    data-strict="1"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="bottom"
+    data-theme="preferred_color_scheme"
+    data-lang="ko"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async>
+</script>
+{{- end -}}
+{{- end -}}

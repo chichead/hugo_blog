@@ -4,6 +4,7 @@ date: '2023-04-30'
 categories: ['GNN', 'Math', 'Deep Learning']
 showToc: true
 ShowBreadCrumbs: true
+comments : true
 ---
 
 GNN(Graph Neural Network)은 점점 더 발전하고 있는 딥러닝 분야입니다. 이미 다양한 영역에서 그 잠재력과 영향력을 선보이고 있죠. GNN이 풀어야 하는 질문들은 여전히 많이 있지만, 그중에서도 가장 대표적인 challenge 2개가 있습니다. 바로 over-smoothing과 over-squashing입니다. over-smoothing은 여러 개의 graph convolution layer를 쌓게 될 경우, 노드의 정보가 유사해지는 경향이 있어 GNN 모델의 학습 능력이 떨어지는 문제를 말합니다. over-squashing는 노드의 정보가 과도하게 압축되면서 정보가 손상되는 문제입니다. 
