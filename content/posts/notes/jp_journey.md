@@ -68,7 +68,7 @@ draft : true
 
 LatitudeE7, longitudeE7은 이름 그대로, 위도와 경도에 E7을 곱한 값으로 보인다. E7은 10의 7제곱을 의미한다. 천 만이 곱해지면서 위경도의 소숫점이 사라졌다. accurcy는 정확도를 나타낸다. 숫자가 작을수록 정확도가 높다는 의미다. 그 외에도 속도(velocity), 방향(heading, 북쪽을 기준으로 360도) 고도(altitude) 정보도 확인할 수 있다.
 
-일단 `Records.json` 파일로 확인할 수 있는 기본적인 위치정보를 가지고 시각화해보자. 일본 어디어디를 다녔는지 Google은 알고 있으니까. 데이터 전처리는 R을 이용해 진행한다.
+일단 `Records.json` 파일로 확인할 수 있는 기본적인 위치정보를 가지고 시각화해보자. 내가 일본 어디어디를 다녔는지 Google은 알고 있으니까.
 
 ```r
 library(jsonlite)
@@ -83,6 +83,6 @@ records_df <- records_df |>
          serverTime = lubridate::ymd_hms(locations.serverTimestamp))
 ```
 
-json 파일을 데이터프레임으로 만들고, 천 만이 곱해져있는 위도와 경도를 원래 모습으로 바꾸어주었다. 거기에 데이터가 기록된 시점(locations.serverTimestamp)이 제대로 인식될 수 있도록 시간 데이터(연월일시분초)로 바꿔줬다. 
+데이터 전처리는 R을 이용해 진행한다. json 파일을 데이터프레임으로 만들고, 천 만이 곱해져있는 위도와 경도를 원래 모습으로 바꾸어주었다. 거기에 데이터가 기록된 시점(locations.serverTimestamp)이 제대로 인식될 수 있도록 시간 데이터(연월일시분초)로 바꿔줬다. 
 
 이제 데이터가 준비되었으니, 이걸 가지고 지도에 뿌리면 될 거다.
