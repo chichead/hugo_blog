@@ -83,6 +83,29 @@ records_df <- records_df |>
          serverTime = lubridate::ymd_hms(locations.serverTimestamp))
 ```
 
-데이터 전처리는 R을 이용해 진행한다. json 파일을 데이터프레임으로 만들고, 천 만이 곱해져있는 위도와 경도를 원래 모습으로 바꾸어주었다. 거기에 데이터가 기록된 시점(locations.serverTimestamp)이 제대로 인식될 수 있도록 시간 데이터(연월일시분초)로 바꿔줬다. 
+데이터 전처리와 시각화는 R을 이용해 진행한다. json 파일을 데이터프레임으로 만들고, 천 만이 곱해져있는 위도와 경도를 원래 모습으로 바꾸어주었다. 거기에 데이터가 기록된 시점(locations.serverTimestamp)이 제대로 인식될 수 있도록 시간 데이터(연월일시분초)로 바꿔줬다. 
 
-이제 데이터가 준비되었으니, 이걸 가지고 지도에 뿌리면 될 거다.
+이제 데이터가 준비되었으니, 이걸 가지고 지도에 뿌리면 될 거다. `ggmap` 라이브러리를 활용했다.
+
+```r
+library(ggplot2)
+library(ggmap)
+
+japan <- c(left = 139, right = 141, top = 36, bottom = 35.2)
+japan_map <- get_stamenmap(japan, maptype = "toner-lite")
+
+ggmap(japan_map) +
+  geom_point(data = records_df,
+             aes(x = longitude, y = latitude),
+             color = "#FFCF00",
+             alpha = 0.5) +
+  theme_minimal()
+```
+
+우선 내가 다녀온 일본 영역을 담을 수 있는 맵박스를 만들었다. 이름은 `japan`. 그리고 `ggmap` 라이브러리에 있는 함수를 이용해 Stamen이 만든 지도를 불러왔다. 그리고 위에서 `Record.json`에서 정리한 데이터를 불러와 뿌리자.
+
+![](/images/japan/japan.png)
+
+오른쪽에 나리타 공항도 보이고 잘 그려졌다. 물론 중간 중간 요상한 점들도 보인다. 아마도 비행중에 위치 정보가 잡힌게 아닐까 싶다. 일단은 도쿄에 집중을 해보자. 조금 더 확대해서 그려본다. 맵 박스를 도쿄에 맞게 조정하고 `get_stamenmap` 함수에서 zoom을 이용해 지도 이미지의 해상도를 조절해보자.
+
+![](/images/japan/tokyo.png)
