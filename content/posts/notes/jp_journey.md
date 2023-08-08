@@ -108,4 +108,9 @@ ggmap(japan_map) +
 
 오른쪽에 나리타 공항도 보이고 잘 그려졌다. 물론 중간 중간 요상한 점들도 보인다. 아마도 비행중에 위치 정보가 잡힌게 아닐까 싶다. 일단은 도쿄에 집중을 해보자. 조금 더 확대해서 그려본다. 맵 박스를 도쿄에 맞게 조정하고 `get_stamenmap` 함수에서 zoom을 이용해 지도 이미지의 해상도를 조절해보자.
 
+```r
+tokyo <- c(left = 139.6455, right = 139.8535, top = 35.7405, bottom = 35.6576)
+tokyo_map <- get_stamenmap(tokyo, zoom = 14, maptype = "toner-lite")
+```
+
 ![](/images/japan/tokyo.png)
