@@ -161,3 +161,16 @@ tokyo_map <- get_stamenmap(tokyo, zoom = 14, maptype = "toner-lite")
 
 12시 50분, 드디어 일본에 도착했다.
 
+## 7.
+
+본격적으로 일본 여행이 시작됐다. 일본 여행의 이야기를 쓰기 앞서 또 다른 파일을 한 번 살펴볼 필요가 있다. 이번에 살펴볼 파일은 Semantic Location History가 담겨있는 JSON 파일이다. 이름은 `2023_JUNE.JSON`이다. 이 JSON 파일에는 일본에서 내가 어디를 갔는지, 어떻게 움직였는지가 다 나와있다. 크게 두 가지 이벤트를 통해 알 수 있는데, 하나는 activitySegment이고 또 하나는 placeVisit이다. 우선 activitySegment가 어떤 녀석인지 좀 살펴보도록 하자.
+
+![](/images/japan/activitysegment.png)
+
+이 activitySegment 이벤트에는 내가 어떤 활동을 했는지가 들어 있다. 특정 행동이 시작된 시점과 끝난 시점, 이동거리, 걸린 시간 등을 알 수 있다. 이 데이터를 바탕으로 Google은 내 활동이 어떤 타입인지 예측한다. Google이 생각한 나의 행동은 WALKING. 다만 그 분류의 신뢰도는 그리 높지 않은 모양이다. Confidence가 LOW로 나와있다. Google은 총 38가지의 활동 타입 중에 가장 확률이 높은 녀석을 골라 보여준다. WALKING의 확률은 58.9%. STILL(가만히 서 있음)의 확률은 19.7% 정도다. 
+
+이번엔 placeVisit 이벤트를 살펴보자. 이름에서 알 수 있듯, 이 이벤트를 보면 어느 장소에 방문했는지를 알 수 있다.
+
+![](/images/japan/placeVisit.png)
+
+Google은 내가 2023년 6월 23일 아침 8시에 시부야 역에 있다고 파악하고 있다. 시간이 조금 맞지 않는 느낌이다. 23일 이 시간에 나는 인천공항에서 19만 원짜리 가방을 보고 있었을 거다. 데이터를 정리할 때 Timestamp 항목을 조정할 필요가 있어 보인다. activitySegement 이벤트와 마찬가지로 다른 후보군도 함께 볼 수 있다. 우선 시부야 역의 신뢰도는 꽤 높다. 96.7%. 다른 후보군을 보면 시부야 스크램블 스퀘어(90.9%), 하치코 동상이 있는 광장(22.2%)도 보인다.
