@@ -1,5 +1,5 @@
 ---
-title: '일본여행기'
+title: '일본여행기1️⃣ 시작이 반이다'
 date: '2023-08-06'
 categories: ['일본여행기']
 showToc: true
@@ -19,7 +19,7 @@ draft : true
 서두가 길었다. 절대 분량을 채우려는 속셈은 아니다. 분량, 뭐 길면 좋지만 짧다고 뭐라할 사람 없다. 다만 늦게 정리하는 만큼 가물가물한 내 기억 대신 다른 녀석의 힘을 빌려보려고 한다. 바로 Google이다. 나는 개인정보를 무척이나 소중하게 여기는 편인데, 그럼에도 불구하고 내 이럴 줄 알고 여행 기간 동안 Google 위치 기록 정보를 켜 두었다. 참 다행이다. 과거의 나에게 따봉 하나 보낸다.
 
 
-## 2. 
+## 2.
 
 계획적으로 삶을 사는 편이 아니다. 뒤늦게 글 정리 하는 걸 봐라. 데이터도 미리 주욱 뽑아놓고 분석한 게 아니다. 글 쓰다가 데이터 만지고, 또 글 쓰다가 데이터 만지고... 이 글을 쓰면서 구글에 들어가 데이터를 다운받았다. Google 테이크아웃이라는 기능이 있는 줄 처음 알았다. 여기에선 내 Google 계정의 데이터를 테이크아웃 할 수 있다.
 
@@ -221,4 +221,96 @@ records_df |>
 # 6     35.8      140. 2023-06-23 05:12:00 2023-06-23 14:12:00
 ```
 
-위도와 경도도 우리가 아는 형태로 나왔고, `timestamp_local` 열에도 현지 시간이 잘 변경되었다. 동일한 과정을 이제 `2023_JUNE.JSON` 파일에도 적용해주자. 
+위도와 경도도 우리가 아는 형태로 나왔고, `timestamp_local` 열에도 현지 시간이 잘 변경되었다. 
+
+## 9.
+
+동일한 과정을 이제 `2023_JUNE.JSON` 파일에도 적용해주자. 다만 `2023_JUNE.JSON` 파일은 단계가 조금 더 들어간다. 위에서 살펴봤듯 요 JSON 파일에는 서로 다른 두 가지 이벤트가 들어있다. 하나의 틀로 데이터프레임을 만들면 오류가 날게 뻔하다. 그래서 두 이벤트를 따로 분리해서 데이터프레임을 만들어야 한다. 우선 activitySegment 이벤트를 정리해보자.
+
+크게 5단계로 설명할 수 있다.
+
+1. JSON 파일 불러오기. 하지만 이번엔 simplifyVector 값을 FALSE로
+2. 불러온 JSON 파일에서 timelineObjects만 골라낸다. 요 timelineObjects 안에 우리가 정리할 activitySegement와 placeVisit 이벤트가 들어있다.
+3. timelineObjects에서 activitySegement만 필터링한다.
+4. activitySegment 이벤트를 데이터프레임으로 만든다.
+5. local time을 만들어준다.
+
+이 과정을 코드로 나타내면 이렇게 쓸 수 있다.
+
+```r
+activitySegment_list <- read_json("2023_JUNE.json", simplifyVector = FALSE) |>
+  pluck("timelineObjects") |>
+  purrr::map("activitySegment") |>
+  purrr::map_dfr(\(x) data.frame(
+    distance_m = x$distance,
+    activity_type = x$activityType,
+    confidence = x$confidence,
+    start_latitudeE7 = x$startLocation$latitudeE7 / 1e7,
+    start_longitudeE7 = x$startLocation$longitudeE7 / 1e7,
+    end_latitudeE7 = x$endLocation$latitudeE7 / 1e7,
+    end_longitudeE7 = x$endLocation$longitudeE7 / 1e7,
+    startTimestamp = ymd_hms(x$duration$startTimestamp, tz = "UTC"),
+    endTimestamp = ymd_hms(x$duration$endTimestamp, tz = "UTC")
+    )) |>
+  mutate(startTimestamp_local = lubridate::force_tz(with_tz(startTimestamp, "Asia/Tokyo"), "UTC"),
+         endTimestamp_local = lubridate::force_tz(with_tz(endTimestamp, "Asia/Tokyo"), "UTC")) |>
+  as_tibble()
+```
+
+만들어진 데이터는 요런 모양이다. 이동거리와 Google이 판단한 내 활동의 종류, 그 판단의 신뢰도, 시작 시점, 끝나는 시점, 시작 위치, 끝나는 위치를 확인할 수 있다. 
+
+```r
+activitySegment_list |>
+  select(distance_m, activity_type, confidence, startTimestamp_local, endTimestamp_local) |>
+  head()
+
+# A tibble: 6 × 5
+#   distance_m activity_type        confidence startTimestamp_local endTimestamp_local 
+#        <int> <chr>                <chr>      <dttm>               <dttm>             
+# 1      53314 IN_PASSENGER_VEHICLE LOW        2023-06-23 13:59:02  2023-06-23 14:34:30
+# 2      57961 IN_TRAIN             MEDIUM     2023-06-23 14:34:30  2023-06-23 14:43:36
+# 3       8427 IN_SUBWAY            MEDIUM     2023-06-23 16:36:10  2023-06-23 17:07:33
+# 4        668 WALKING              LOW        2023-06-23 17:07:33  2023-06-23 17:17:27
+# 5        469 WALKING              LOW        2023-06-23 17:39:59  2023-06-23 17:45:01
+# 6       8840 IN_SUBWAY            MEDIUM     2023-06-23 17:58:53  2023-06-23 18:29:42
+```
+
+같은 방식으로 placeVisit도 동일한 리스트를 만들어준다.
+
+```r
+placeVisit_list <- read_json("2023_JUNE.json", simplifyVector = FALSE) |>
+  pluck("timelineObjects") |>
+  purrr::map("placeVisit") |>
+  map_dfr(\(x) data.frame(
+    id = x$location$placeId,
+    latitudeE7 = x$location$latitudeE7 / 1e7,
+    longitudeE7 = x$location$longitudeE7 / 1e7,
+    name = x$location$name,
+    address = x$location$address,
+    startTimestamp = ymd_hms(x$duration$startTimestamp, tz = "UTC"),
+    endTimestamp = ymd_hms(x$duration$endTimestamp, tz = "UTC")
+  )) |>
+  mutate(startTimestamp_local = lubridate::force_tz(with_tz(startTimestamp, "Asia/Tokyo"), "UTC"),
+         endTimestamp_local = lubridate::force_tz(with_tz(endTimestamp, "Asia/Tokyo"), "UTC")) |>
+  as_tibble()
+
+placeVisit_list |>
+  select(name, address) |>
+  head()
+
+#  A tibble: 6 × 2
+#   name                    address                                         
+#   <chr>                   <chr>                                           
+# 1 Keisei Ueno Station     日本、〒110-0007 東京都台東区上野公園１         
+# 2 Tosei Hotel Cocone Ueno 日本、〒110-0015 東京都台東区東上野２丁目１８−５
+# 3 Ramen Kamo to Negi      日本、〒110-0005 東京都台東区上野６丁目４−１５  
+# 4 Shibuya Parco           日本、〒150-0042 東京都渋谷区宇田川町１５−１    
+# 5 Shibuya Station         日本、〒150-0002 東京都渋谷区渋谷２丁目２４     
+# 6 Tosei Hotel Cocone Ueno 日本、〒110-0015 東京都台東区東上野２丁目１８−５
+```
+
+방문한 장소의 위치와 시간, 자세한 주소까지도 확인할 수 있다. 
+
+이제 데이터도 제대로 정리가 되었겠다, 이제 본격적으로 일본에서의 여행 이야기를 시작할 수 있겠다. 시작이 반이라고 했다. 벌써 반이나 왔으니 부담 없이 산뜻한 마음으로 정리를 할 수 있을 것 같다. 자신감 가득 안고!  
+
+(다음 편에 계속)
