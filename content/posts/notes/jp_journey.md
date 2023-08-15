@@ -181,4 +181,44 @@ tokyo_map <- get_stamenmap(tokyo, zoom = 14, maptype = "toner-lite")
 
 ![](/images/japan/placeVisit.png)
 
-Google은 내가 2023년 6월 23일 아침 8시에 시부야 역에 있다고 파악하고 있다. 시간이 맞지 않는다. 왜냐하면 23일 이 시간에 나는 인천공항에서 가방을 보고 있었으니까. 19만 원짜리 그 가방말이다. 데이터를 정리할 때 Timestamp 항목을 조정할 필요가 있겠다. activitySegement 이벤트와 마찬가지로 다른 후보군도 함께 볼 수 있다. 우선 시부야 역의 신뢰도는 꽤 높다. 96.7%. 다른 후보군을 보면 시부야 스크램블 스퀘어(90.9%), 하치코 동상이 있는 광장(22.2%)도 보인다.
+Google은 내가 2023년 6월 23일 아침 8시 45분에 시부야 역에 있다고 파악하고 있다. 시간이 맞지 않는다. 왜냐하면 23일 이 시간에 나는 인천공항에서 가방을 보고 있었으니까. 19만 원짜리 그 가방말이다. 데이터를 정리할 때 Timestamp 항목을 조정할 필요가 있겠다. 처음에 살펴본 activitySegement 이벤트와 마찬가지로 placeVisit에도 다른 장소 후보군을 함께 볼 수 있다. 우선 시부야 역의 신뢰도는 꽤 높다. 96.7%. 다른 후보군을 보면 시부야 스크램블 스퀘어(90.9%), 하치코 동상이 있는 광장(22.2%)도 보인다.
+
+## 8.
+
+일단 시간 데이터를 조정하고 들어가야겠다. 우선 맨 처음 만들어놨던 `records_df` 파일을 다시 좀 바꿔보자. 처음에는 그냥 바로 json 파일을 데이터프레임으로 만들었다. locations 안에 latitudeE7, longitudeE7 등의 다양한 요소가 들어있는 구조였기에 만들어진 데이터프레임의 칼럼명은 `location.latitudeE7`, `location.longitudeE7` 이런 식이었다. 
+
+`purrr` 패키지에 있는 `pluck` 함수를 사용하면 중첩된 데이터 구조 내에 들어있는 녀석들을 깔끔하게 가져올 수 있다. JSON 파일을 읽어올 때 `simplyfyVector`를 TRUE로 지정하면 중첩된 리스트를 벡터나 데이터프레임으로 단순화할 수 있다. 거기에다가 `pluck` 함수를 이용해서 `locations`에 들어있는 녀석들을 가져오자.
+
+```r
+records_df <- read_json("Records.json", simplifyVector = TRUE) |>
+  pluck("locations") |>
+  as_tibble()
+```
+
+천 만이 곱해져있는 위도 경도를 원래대로 바꾸고 시간을 현지 시간으로 조정해야 한다. 데이터에 들어가 있는 시간은 협정세계시(UTC, Coordinated Universal Time) 기준이다. 우리나라와 일본은 UTC+9, 그러니까 협정세계시를 기준으로 9시간이 빠른 시간대에 속해있다. 이 시간대로 변경해주면 시부야 역에 내가 있었던 시간은 오후 5시 45분. Google이 기록한 시간에 9시간을 더해 일본 현지 시간으로 변경해주자.
+
+Google이 기록한 UTC+0 시간이 들어있는 `timestamp` 변수에다가 일본 time zone(`Asia/Tokyo`)을 넣어준다. 그리고 `force_tz` 함수를 이용해서 시간대를 변경한다.
+
+ ```r
+records_df <- records_df |>
+  mutate(latitude = latitudeE7/10000000,
+         longitude = longitudeE7/10000000,
+         timestamp = lubridate::ymd_hms(timestamp, tz = "UTC"),
+         timestamp_local = lubridate::force_tz(with_tz(timestamp, "Asia/Tokyo"), "UTC"))
+
+records_df |>
+  select(latitude, longitude, timestamp, timestamp_local) |>
+  head()
+
+# A tibble: 6 × 4
+#   latitude longitude timestamp           timestamp_local    
+#      <dbl>     <dbl> <dttm>              <dttm>             
+# 1     35.8      140. 2023-06-23 04:59:02 2023-06-23 13:59:02
+# 2     35.8      140. 2023-06-23 04:59:20 2023-06-23 13:59:20
+# 3     35.8      140. 2023-06-23 05:05:50 2023-06-23 14:05:50
+# 4     35.8      140. 2023-06-23 05:07:50 2023-06-23 14:07:50
+# 5     35.8      140. 2023-06-23 05:09:54 2023-06-23 14:09:54
+# 6     35.8      140. 2023-06-23 05:12:00 2023-06-23 14:12:00
+```
+
+위도와 경도도 우리가 아는 형태로 나왔고, `timestamp_local` 열에도 현지 시간이 잘 변경되었다. 동일한 과정을 이제 `2023_JUNE.JSON` 파일에도 적용해주자. 
