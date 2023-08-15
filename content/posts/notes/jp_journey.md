@@ -5,7 +5,7 @@ categories: ['일본여행기']
 showToc: true
 ShowBreadCrumbs: true
 comments : true
-draft : true
+draft : false
 ---
 
 ## 1.
