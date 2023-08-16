@@ -1,5 +1,5 @@
 ---
-title: "Notes"
+title: "Posts"
 layout: "list"
 summary: "list"
 ---
