@@ -1,5 +1,5 @@
 ---
-title: '일본여행기1️⃣ 시작이 반이다'
+title: '🍊 일본여행기1️⃣ 시작이 반이다'
 date: '2023-08-06'
 categories: ['일본여행기']
 showToc: true

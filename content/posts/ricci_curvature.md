@@ -1,5 +1,5 @@
 ---
-title: 'Ricci Curvature로 Over-squashing 해결하기'
+title: '✏️ Ricci Curvature로 Over-squashing 해결하기'
 date: '2023-04-30'
 categories: ['GNN', 'Math', 'Deep Learning']
 showToc: true

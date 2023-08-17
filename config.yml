@@ -142,18 +142,14 @@ menu:
       name: Posts
       url: /Posts/
       weight: 10
-    - identifier: Notes
-      name: Notes
-      url: /notes/
-      weight: 20
     - identifier: Categories
       name: Categories
       url: /Categories/
-      weight: 30
+      weight: 20
     - identifier: Search
       name: Search
       url: /Search/
-      weight: 40
+      weight: 30
 # Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
 pygmentsUseClasses: true
 
