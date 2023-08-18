@@ -1,5 +1,5 @@
 baseURL: "https://chichead.netlify.app/"
-title: Chic'Study
+title: Orange Mansion
 paginate: 5
 theme: PaperMod
 
@@ -23,7 +23,7 @@ outputs:
 
 params:
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
-  title: Chic'Study
+  title: Orange Mansion
   description: "Keeping a small record of what I've learned for Data Analysis. Sometimes I do other stuff."
   keywords: [Blog, Portfolio, PaperMod]
   author: Chichead
@@ -53,15 +53,15 @@ params:
   assets:
     # disableHLJS: true # to disable highlight.js
     # disableFingerprinting: true
-    favicon: "/favicon/favicon.ico"
-    favicon16x16: "/favicon/favicon-16x16.png"
-    favicon32x32: "/favicon/favicon-32x32.png"
-    apple_touch_icon: "/favicon/apple-touch-icon.png"
+    favicon: "/favicon/om_favicon.ico"
+    favicon16x16: "/favicon/om_favicon-16x16.png"
+    favicon32x32: "/favicon/om_favicon-32x32.png"
+    apple_touch_icon: "/favicon/om_apple-touch-icon.png"
     safari_pinned_tab: "<link / abs url>"
 
   label:
-    text: "Chic'Study"
-    icon: /favicon/apple-touch-icon.png
+    text: "Orange Mansion"
+    icon: /favicon/om_apple-touch-icon.png
     iconHeight: 35
 
   # profile-mode
@@ -81,8 +81,8 @@ params:
 
   # home-info mode
   homeInfoParams:
-    Title: "꼬끼오 공부방"
-    Content: 데이터 분석을 하며 공부한 내용을 소소하게 기록합니다. 가끔 딴짓거리도 합니다.
+    Title: "오렌지 맨숀"
+    Content: 귤 향 가득한 오렌지 맨숀입니다. 데이터 분석을 하며 공부한 내용을 소소하게 기록합니다. 가끔 주인장의 딴짓거리도 기록합니다.
 
   socialIcons:
     - name: github
