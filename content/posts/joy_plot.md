@@ -5,7 +5,7 @@ categories: ['데이터 시각화']
 showToc: true
 ShowBreadCrumbs: true
 comments : true
-draft : true
+draft : false
 ---
 
 ## 1. INTRO
