@@ -31,128 +31,76 @@ Pierre Casadebaig는 천문학의 아름다운 시각화를 보고 영감을 받
 
 ## 3. VIZ
 
-CP1919를 보고 영감을 받은 Pierre Casadebaig은 프랑스 지역의 산을 대상으로 작품활동을 이어오고 있다. 아주 감사하게도 그는 자신의 블로그에 R로 어떻게 작업을 하고 있는지 개괄적으로 설명해두고 있다. 블로그 글을 참고 삼아 한 번 "우리나라를 가지고도 만들어 볼 수 있지 않을까?"해서 도전해보려 한다.
+CP1919를 보고 영감을 받은 Pierre Casadebaig은 프랑스 지역의 산을 대상으로 작품활동을 이어오고 있다. 아주 감사하게도 그는 자신의 블로그에 R로 어떻게 작업을 하고 있는지 개괄적으로 설명해두고 있다. 블로그 글을 참고 삼아 한 번 "우리나라를 가지고도 만들어 볼 수 있지 않을까?"해서 도전해보았다.
 
+우리나라 DEM 데이터는 국가공간정보포털에서 받을 수 있다. 국가공간정보포털에서는 도 단위로 DEM 데이터를 제공해주고 있는데, 조금 더 자세한 정보는 국토지리정보원의 국토정보맵을 통해 받을 수 있다. 내가 사는 동네의 모습을 보기 위해 국토정보맵에서 자료를 다운받았다. 
 
 ```r
-
 library(tidyverse)
-library(stars)
-library(dplyr)
-
-
-#------------------------------------------------------------------------------
-
-polygon_kor <- rnaturalearth::ne_countries(
-  country = c("South Korea"), scale = "medium", returnclass = "sf") |>
-  st_transform(4166)
-
-coord_kor <- st_sample(polygon_kor, size = 1) |>
-  st_as_sf()
-
-dem_kor <- elevatr::get_elev_raster(
-  coord_kor, z = 11, clip = "bbox")
-
-ggplot() +
-  geom_stars(data = st_as_stars(dem_kor)) +
-  geom_sf(data = coord_kor, color = "white", size = 1) +
-  scale_fill_viridis_c(name = "elevation") +
-  labs(x = "lon", y = "lat")
-
-
-
-z_shift = 5
-
-df_dem_kor <- dem_kor |>
-  stars::st_as_stars() |>
-  as_tibble() |>
-  select(x, y, z = 3)
-
-data_index_kor <- df_dem_kor |>
-  distinct(y) |>
-  arrange(y) |>
-  mutate(y_rank = rank(y),
-         y_dist = scales::rescale(y, to = c(0, 1)),
-         dz = y_rank * z_shift)
-
-df_shift_kor <- df_dem_kor |>
-  left_join(data_index_kor, by = "y") |>
-  group_by(y) |>
-  mutate(xn = x -min(x),
-         x_rank = rank(x)) |>
-  ungroup() |>
-  mutate(zs = z + dz)
-
-ggplot(df_dem_kor) +
-  geom_line(aes(x = x, y = z, group = y)) +
-  theme_minimal()
-
-ggplot(df_shift_kor) +
-  geom_line(aes(x = x, y = zs, group = y)) +
-  theme_minimal()
-
-
-n_lag = 100
-z_threshold = 5
-
-list_distance <- map(glue::glue("~ . - lag(., n = {1:n_lag})"), ~ as.formula(.))
-list_col <- glue::glue("zs_{1:n_lag}")
-
-
-df_ridge_kor <- df_shift_kor |>
-  arrange(y_rank) |>
-  group_by(x) |>
-  mutate(across(zs, .fns = list_distance)) |>
-  ungroup() |>
-  mutate(
-    zn = case_when(
-      if_any(all_of(list_col), ~ . < z_threshold) ~ NA_real_, TRUE ~ zs)
-  ) |>
-  select(- all_of(list_col))
-
-ggplot(df_ridge_kor) +
-  geom_line(aes(x = xn, y = zn, group = y)) +
-  theme_minimal()
-
-
-
-#---------------------
-
 library(terra)
 library(raster)
+library(stars)
+library(elevatr)
+```
 
+이번 시각화에서 활용할 패키지들이다. `tidyverse`는 데이터 전처리, 시각화 등 전천후로 활용할 패키지 셋이고,`terra`와 `raster`는 r에서 공간정보를 분석할 때 활용할 수 있는 `rspatial` 패밀리에 있는 녀석들이다. 그 외에도 `stars`와 고도 데이터 분석을 위해 `elevatr` 패키지를 활용했다.
+
+```r
 # DEM 파일 raster / 고도 데이터 추출
 dem_37705 <- terra::rast("/Users/admin/Downloads/37705.img") |>
   elevatr::get_elev_raster(z = 11, clip = "bbox")
 
-# xyz 데이터 셋 만들기
+ # xyz 데이터 셋 만들기
 df_dem_37705 <- dem_37705 |>
   st_as_stars() |>
   as_tibble() |>
   select(x, y, z = 3)
 
-# 시각화
-install.packages("scatterplot3d")
+df_dem_37705
+
+# A tibble: 712,152 × 3
+#         x        y     z
+#     <dbl>    <dbl> <dbl>
+# 1 955611. 1972288.    NA
+# 2 955641. 1972288.    NA
+# 3 955672. 1972288.    NA
+# 4 955702. 1972288.    NA
+# 5 955732. 1972288.    NA
+# 6 955762. 1972288.   322
+# 7 955792. 1972288.   321
+# 8 955823. 1972288.   319
+# 9 955853. 1972288.   315
+#10 955883. 1972288.   308
+# ℹ 712,142 more rows
+# ℹ Use `print(n = ...)` to see more rows
+```
+
+국토정보맵에서 받은 파일은 2022 성동 37705 DEM 파일을 읽어온 뒤 그 중에서 고도 데이터를 추출했다. 추출한 데이터는 x, y, z 좌표료 표현할 수 있다. 앞서 이야기한 것 처럼 그리드(XY)에 고도 데이터(Z)가 들어있는 형태의 데이터 셋이니까. `scatterplot3D` 패키지를 이용해 간단히 시각화 하면 이렇게 표현할 수 있다. 71만 2,152개의 데이터를 다 그리기엔 뭐하니까 일부만 뽑아서 그려본다.
+
+```r
 library(scatterplot3d)
 
-scatterplot3d(df_dem_37705[100:10000, ], color = "tomato", pch = 16)
-scatterplot3d(df_shift_37705[100:10000, c(1, 6, 3)], color = "tomato", pch = 16)
+scatterplot3d(df_dem_37705[100:10000, ], color = "tomato", pch = 20)
+```
+![](/images/joyplot/dem_example.png)
 
-df_shift_37705[, c(1, 6, 3)]
+pch(plot symbol character)가 20인 작은 점으로 3D 그래프를 그리면 이렇게 그릴 수 있다. 이번엔 모든 데이터를 가지고 y축 기준 라인을 그려보면 아래와 같이 그릴 수 있을 것이다. 이렇게 그려진 그래프는 서울의 모습을 정면에서 바라본 모습이라 y축 기준의 라인들이 좌라락 겹쳐져 있는 모습이다.
 
-ggplot() +
-  geom_stars(data = st_as_stars(dem_37705)) +
-  scale_fill_viridis_c(name = "고도") +
-  theme_minimal()
+마치 이런 셈인거다. 서울 지도에서 위도를 기준으로 잘게 슬라이스를 하고 그 슬라이스한 카드를 겹쳐 놓는 식. 카드엔 고도 정보, 즉 산등성이의 모습이 담겨있다.
 
+```r
 ggplot(df_dem_37705) +
   geom_line(aes(x = x, y = z, group = y), linewidth = 0.1, alpha = 0.5) +
   theme_minimal()
+```
 
-# 데이터 조정
-# 여기서의 조정 목표는 y축, 즉 위도에 따라 슬라이스를 하고
-# 겹쳐 보이지 않도록 약간씩 시프트해주자
+![](/images/joyplot/dem_total.png)
 
+오호라, 잘 나오고 있다. 
+
+이제 우리가 할 것은 겹쳐 보이지 않도록 데이터를 조정해주는 것이다. y축을 기준으로 슬라이스를 해 두었으니 겹치지 않게 약간씩 시프트 해주는 과정을 거치도록 한다.
+
+```r
 z_shift = 5
 
 data_index_37705 <- df_dem_37705 |>
@@ -162,126 +110,38 @@ data_index_37705 <- df_dem_37705 |>
          y_dist = scales::rescale(y, to = c(0, 1)),
          dz = y_rank * z_shift)
 
-# 그리고 다시 원래 데이터에다가 붙여주지
-
+# 원래 데이터에다가 붙여주기
 df_shift_37705 <- df_dem_37705 |>
   left_join(data_index_37705, by = "y") |>
   group_by(y) |>
   mutate(xn = x - min(x),
-         x_rank = rank(x)) |> # x 축 원점으로 붙이는 과정
+         x_rank = rank(x)) |> # x축을 원점으로 붙이는 과정
   ungroup() |>
   mutate(zs = z + dz) # z 시프트
+```
+y축을 기준으로 시프트를 할 것이기에 y_rank라는 칼럼을 만들어 그거에 따라 스케일을 조정했다. 그리곤 `z_shift` 값에 따라 새롭게 변경될 dz값을 넣어주었다. 위치가 미세조정된 데이터를 원래 데이터에 붙여주면 끝! `z_shift`값이 5일 때 시각화를 해보면 아래와 같이 나온다.
 
-
-# 그러면 기존엔 정면에서 지역을 바라보는 형식이
-# 시프트 이후엔 위에서 내려다보는 모습으로 변경
-# z_shift 값에 따라 바라보는 각도를 조정할 수 있음
-
-ggplot(df_shift_37705) +
-  geom_line(aes(x = x, y = zs, group = y)) + # 시프트된 y(zs)로 시각화
-  theme_minimal()
-
-# shift가 더 되는 경우
-
-scatterplot3d(df_dem_37705[100:10000, ], color = "tomato", pch = 16)
-scatterplot3d(df_shift_37705[100:10000, c(1, 6, 3)], color = "tomato", pch = 16) # shift = 5
-scatterplot3d(df_shift_37705_2nd[100:10000, c(1, 6, 3)], color = "tomato", pch = 16) # shift = 50
-
-
-# 참고.
-z_shift = 50
-
-data_index_37705_2nd <- df_dem_37705 |>
-  distinct(y) |>
-  arrange(y) |>
-  mutate(y_rank = rank(y),
-         y_dist = scales::rescale(y, to = c(0, 1)),
-         dz = y_rank * z_shift)
-
-df_shift_37705_2nd <- df_dem_37705 |>
-  left_join(data_index_37705_2nd, by = "y") |>
-  group_by(y) |>
-  mutate(xn = x - min(x),
-         x_rank = rank(x)) |> # x 축 원점으로 붙이는 과정
-  ungroup() |>
-  mutate(zs = z + dz) # z 시프트
-
-
-ggplot(df_dem_37705) +
-  geom_line(aes(x = x, y = z, group = y), linewidth = 0.1) +
-  theme_minimal()
-
+```r
 ggplot(df_shift_37705) +
   geom_line(aes(x = x, y = zs, group = y), linewidth = 0.1) +
   theme_minimal()
+```
 
-ggplot(df_shift_37705_2nd) +
-  geom_line(aes(x = x, y = zs, group = y), linewidth = 0.1) +
-  theme_minimal()
+![](/images/joyplot/zshift_5.png)
 
+기존엔 정면에서 서울을 바라봤다면 이제는 위에서 내려다보는 형태로 바뀌었다.
 
-# 그려보면 일단 y축으로 슬라이스해서 붙여놓긴 했다. 그런데 겹치는 선들이 문제
-# 이제 해야할 건 겹치는 선 죽이기
-# z_threshold보다 작은 거리에 있는 점은 없애버려서 겹치는 선들을 원천 차단하자
+`z_shift`값을 조정하면 바라보는 각도를 조정할 수 있다. 아래 그래프는 `z_shift`가 50일 때의 그래프이다. 시프트값이 5일때보다 더 위에서 바라보는 형국이다. `z_shift`값이 커질수록 더 위에서 바라보는 형태로 그래프를 그릴 수 있다.
 
-# 슬라이스한 라인에서 겹치는 걸 확인하기 위해 x를 기준으로 y를 따라 이웃점들간의 거리를 계산한다
-# 모든 점에 대해서 계산할 필요는 없으니까 개수는 100개 정도로 제한하자
-# 거리가 threshold 보다 낮으면 제거
-# threshold를 조정하면서 이미지를 변화시킬 수 있음
+![](/images/joyplot/zshift_50.png)
 
-# 예를 들어보자
+자, 일단은 y축으로 슬라이스해서 붙여놓긴 했다. 그런데 겹치는 선들이 문제다. 물론 겹치는 선으로 느껴지는 음영덕에 3D 입체 느낌이 나긴 하지만 제대로 된 표현은 아니니까, 겹치는 선을 없애는 작업을 해보자.
 
-test <- tribble(
-  ~A, ~B, ~C,
-  1, 1, 10,
-  2, 1, 11,
-  3, 1, 12,
-  4, 1, 14,
-  5, 1, 15,
-  6, 1, 15,
-  7, 1, 14, 
-  8, 1, 12,
-  9, 1, 11,
-  10, 1, 10,
-  1, 2, 13,
-  2, 2, 13.3,
-  3, 2, 13.5,
-  4, 2, 14,
-  5, 2, 14.5,
-  6, 2, 14.5,
-  7, 2, 14, 
-  8, 2, 13.5,
-  9, 2, 13.3,
-  10, 2, 13,
-  1, 3, 11.5,
-  2, 3, 11.5,
-  3, 3, 11.5,
-  4, 3, 11.5,
-  5, 3, 11.5,
-  6, 3, 11.5,
-  7, 3, 11.5, 
-  8, 3, 11.5,
-  9, 3, 11.5,
-  10, 3, 11.5
-)
+겹치는 선을 없애는 방법은? `z_threshold`값을 둔 다음에, 이 녀석보다 작은 거리에 있는 점은 없애버려서 겹치는 선들을 원천 차단해본다. 각 라인별로 겹치는 걸 확인하기 위해 x축을 기준으로 y축을 따라 이웃한 점들간의 거리를 계산하자. 모든 점에 대해서 계산할 필요는 없이 주변, 한 100개 정도만 계산해보자. 
 
-ggplot(test) +
-  geom_line(aes(x = A, y = C, group = B, color = as.factor(B)))
-
-
-test |>
-  arrange(B) |>
-  group_by(A) |>
-  mutate(new = across(C, ~ lag(., n = 1)), # 첫번째 라인과의 차이를 보기 위해
-         new2 = across(C, ~ lag(., n = 2))) |> # 두번째 라인과의 차이를 보기 위해
-  View()
-
-# 거리를 계산하기 위해선 lag 함수를 통해 얻은 다른 라인과의 차이를 계산하면 됨
-# 그 함수를 익명함수로 표현하면 ~. - lag(., n = 1) / ~. - lag(., n = 2) / ... / n = 100까지
-
+```r
 n_lag = 100
-z_threshold = 5
-
+z_threshold = 6
 
 distance_fun <- map(glue::glue("~ . - lag(., n = {1:n_lag})"), ~ as.formula(.))
 distance_col <- glue::glue("zs_{1:n_lag}")
@@ -292,25 +152,24 @@ df_ridge_37705 <- df_shift_37705 |>
   mutate(across(zs, .fns = distance_fun)) |>
   ungroup() |>
   mutate(zn = case_when(
-    if_any(all_of(distance_col), ~ . < z_threshold) ~ NA_real_, # distance_col에 모든 녀석들을 상대로 z_threshol보다 작으면 NA
-    TRUE ~ zs)) |> # 아니면 zs 그대로
+    # distance_col에 모든 녀석들을 상대로 z_threshol보다 작으면 NA, 아니면 zs 그대로
+    if_any(all_of(distance_col), ~ . < z_threshold) ~ NA_real_, 
+    TRUE ~ zs)) |> 
   select(- all_of(distance_col))
+```
+주변 라인과의 거리를 계산하기 위해 lag 함수를 이용하겠다. 익명함수를 작성한 뒤 across 함수를 통해 일괄 적용해줬다. 이제 최종적으로 df_ridge_37705로 그림을 그리면 끝!
 
-
+```r
 ggplot(df_ridge_37705) +
   geom_line(aes(x = xn, y = zn, group = y), linewidth = 0.1) +
-  theme_minimal()
+  theme_void()
 ```
+![](/images/joyplot/final.png)
+
+오른쪽 아래쪽에 오류로 보이는 삐죽 올라온 녀석이 눈에 거슬리긴 하지만 괜찮은 시각화 결과물을 건졌다.
 
 
-국가공간정보포털에서는 도 단위로 DEM 데이터를 제공하고 있음
-국토지리정보원에선 국토정보맵을 통해 지역별 공간정보제공
-내가 살던 답십리의 모습을 보기 위해 ‘2022 성동 37705’ DEM 파일을 받음
+## 📚 Reference
 
-시각화를 위해 활용한 패키지들
-tidyverse ; 데이터 전처리, 시각화 등 전천후로 활용할 패키지 셋
-terra; 공간 데이터 분석을 위한 패키지 (stars도 사용)
-elevatr; 고도 데이터 분석을 위해 사용할 패키지
-
-
-
+1. [posit::conf 2023 Creative Coding in R](https://github.com/posit-conf-2023/creative-coding)
+2. [Pierre Casadebaig, blog](https://art.casadebaig.net/posts/works/dispyr/)
