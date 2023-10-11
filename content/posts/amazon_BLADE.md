@@ -106,7 +106,7 @@ BLADE를 이용해 모든 노드에 대해서 소스 및 타겟 임베딩 생성
 쿼리 노드를 임베딩 공간에 매핑 / 잠재적 후보를 타겟 임베딩 공간에 매핑
 쿼리 노드에 대한 추천 노드를 찾기 위해 최근접 이웃 탐색(Nearest Neighbor)
 
-2. 노드 피쳐 초기화 / Initial Node Embeddings
+2. 노드 피쳐 초기화 Initial Node Embeddings
 균일 분포[-1, 1], 정규 분포, Xavier 균등 및 정규 분포 등 사용할 수 있음
 이 경우의 노드 피쳐 초기화는 무작위 랜덤 / 노드의 어떤 측면도 특정짓지 않음
 최적의 성능을 얻지 못할 가능성이 존재함.
@@ -119,7 +119,7 @@ BLADE를 이용해 모든 노드에 대해서 소스 및 타겟 임베딩 생성
 
 3. 크고 작은 노드 degree에 대한 추천을 개선하기 위한 샘플링
 시드 노드의 degree에 따라 이웃 샘플 크기를 locally 조정
-만약 시드 노드의 degree가 낮으면 larger neighborhood로 / degree가 높으면 smaller
+만약 시드 노드의 degree가 낮으면 larger neighborhood로, degree가 높으면 smaller
 이웃 샘플링을 수행할 때는 노드의 degree에 따라 샘플링할 엣지의 확률을 차등 처리
 
 물론 GAT(Graph Attention)은 노드마다 다른 가중치를 암시적으로 지정할 수 있음
