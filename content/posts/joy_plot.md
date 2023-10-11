@@ -1,7 +1,7 @@
 ---
-title: '🍋 Joy Plot으로 그림 그리기'
+title: '🍋 DEM 데이터를 활용해 Joy Plot 그리기'
 date: '2023-10-06'
-categories: ['데이터 시각화']
+categories: ['Data Viz', 'R']
 showToc: true
 ShowBreadCrumbs: true
 comments : true
