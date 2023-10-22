@@ -5,7 +5,7 @@ categories: ['AI', 'GNN', 'Report']
 showToc: true
 ShowBreadCrumbs: true
 comments : true
-draft : true
+draft : false
 ---
 
 ## 🐣 State of AI 2023
@@ -14,11 +14,11 @@ draft : true
 
 매년 AI 기술의 현주소를 분석해 100페이지가 넘는 보고서를 작성하는 팀이 있다. 이 팀은 AI 기술에 투자하는 벤처캐피탈 Air Street Captital의 Genenral Partner인 Nathan Benaich가 이끌고 있다. 이 보고서는 State of AI Report라는 이름을 달고 2018년부터 매년 발표되고 있는데, 보고서에는 AI 기술의 현재 뿐 아니라 미래까지 예측하고 있다. 보고서는 크게 5가지 파트로 구성되어 있다.
 
-- Research: 기술 혁신과 그 역량
-- Industry: AI의 상업적 적용과 비즈니스에 미치는 영향
-- Politics: AI 관련 규제, 경제적 영향 및 AI 정책의 지정학
-- Safety: 미래 AI 시스템이 우리에게 초래할 수 있는 치명적인 위험을 식별, 완화
-- Predictions: 앞으로 일어날 것으로 예상되는 일과 이전 보고서의 성과 검토
+- **Research**: 기술 혁신과 그 역량
+- **Industry**: AI의 상업적 적용과 비즈니스에 미치는 영향
+- **Politics**: AI 관련 규제, 경제적 영향 및 AI 정책의 지정학
+- **Safety**: 미래 AI 시스템이 우리에게 초래할 수 있는 치명적인 위험을 식별, 완화
+- **Predictions**: 앞으로 일어날 것으로 예상되는 일과 이전 보고서의 성과 검토
 
 2023년의 AI 기술 역량뿐 아니라 산업 영역, 또한 정책 상황과 안보 이슈까지 총 망라한 `State of AI 보고서`는 [이곳](https://www.stateof.ai/)에서 볼 수 있다. 시간이 된다면 원문을 찬찬히 뜯어볼 것을 추천한다. 오늘 이 포스트에선 `State of AI 보고서`의 주요 부분을 요약하고, 추가로 덧붙일만한 내용을 포함해 정리해 보았다.
 
@@ -63,142 +63,61 @@ MS 연구진이 만든 LLM은 phi-1이라는 녀석이다. 이 모델은 경쟁 
 
 어쩌면 LLM 대신 SLM으로 빠르게 전환될 가능성도 엿보이는데, [Epoch AI](https://epochai.org/blog/will-we-run-out-of-ml-data-evidence-from-projecting-dataset)에서는 현재의 데이터 소비와 생산 속도가 유지될 경우 고품질의 언어 데이터는 2026년 전에 고갈될 것으로 예측했다. Epoch AI의 예측이 맞다면 향후 2년 내에 고품질 언어 데이터가 사라질 위험이 있다는 것이다. 이를 대비하기 위해선 학습 데이터 소스를 모색할 필요가 있는데, OpenAI에서는 이미 오디오를 LLM에 사용할 수 있도록 변환해 주는 음성 인식 시스템 [Whisper](https://openai.com/research/whisper)를 공개한 바 있다. Meta에서도 OCR 모델인 [Nougat](https://facebookresearch.github.io/nougat/)을 발표했다. 
 
+ 
 ## 🐣 2. Industry
 
-: Research에서 LLM이 있다면 산업 분야에선 NVIDIA
-: NVIDIA는 GPU 수요에 힘입어 시가총액 1억 달러 클럽에 가입
-: 23년 2분기 NVIDIA의 데이터 센터 매출은 103억 2천만 달러로 1분기 대비 141% 증가
-: 특정 AI 칩의 사용을 인용한 오픈 소스 AI 논문 수를 체크해 업체별로 얼마나 많이 사용되는지
-: AI research에서 모든 대체 제품을 합친 것보다 NVIDIA 제품이 19배 더 많이 사용되고 있음
+### 2-1. NVIDIA
 
-: 2023년 H100 GPU가 발매되었지만 여전히 연구원들은 V100, A100, RTX 3090 의존
-: 2017년에 출시된 V100은 여전히 AI 연구에서 대중적으로 사용되는 침 / 상당히 수명이 길다
-: 연구소에서는 대규모 클러스터 구축을 진행중, 그러다보니 H100에 대한 수요 급증
-: 수요는 급증하지만 공급과 생산이 따라가지 못하고 있는 상황
+Research에서 LLM이 있다면 산업 분야에선 NVIDIA가 2023년의 MVP라고 할 수 있을 것이다. NVIDIA는 GPU 수요에 힘입어 시가총액 1억 달러 클럽에 당당히 가입했다. 23년 2분기 NVIDIA의 데이터 센터 매출은 103억 2천만 달러로 1분기 대비 141% 증가했다. AI 칩이 얼마나 사용되었는지 확인하기 위해 칩 사용을 인용한 오픈 소스 AI 논문 수를 체크해 보니, AI research에서 NVIDIA 제품은 모든 대체 제품을 합친 것보다 19배 더 많이 사용되고 있다.
 
-: 미국과 중국의 반도체 전쟁 사이에 낀 업체들 입장에선 제재 속 칩 개발 움직임
-: 중국은 NVIDIA의 데이터 센터 매출의 20~25%를 차지
-: 미국의 반도체 수출 통제 속에서도 포기할 수 없는 시장
-: 이미 A100과 H100은 수출 통제 목록에 추가됨. 그래서 NVIDIA는 A800, H800 광고
-: NVIDIA뿐 아니라 Intel, AMD 모두 대규모 중국 고객을 대상으로 한 특수 칩 개발 진행중
+![](/images/stateofAI2023/chip_usage.png)
 
-+ 하지만 17일 미국 상무부가 저사양 AI 반도체까지 중국에 수출 못하도록 추가 조치
-: 기존의 수출 규제 기준이었던 ‘통신 능력’을 빼고 ‘성능 밀도’를 넣은 것
-: 또 AI칩 제재 기준 아래에 있는 일부 특정 칩을 수출할 경우 사전에 미 정부에 통지해야
+2023년에 H100 GPU가 발매되었지만 여전히 연구원들은 V100, A100, RTX 3090에 의존 중이다. 2017년에 출시된 V100은 여전히 AI 연구에서 대중적으로 사용되는 칩인데, 상당히 수명이 긴 셈. 하지만 AI 산업이 커지면서 각 기업, 국가의 연구소에서는 대규모 클러스터 구축을 진행 중이다. 그러다 보니 H100에 대한 수요도 급증한 상태다. 수요는 급증했지만 NVIDIA의 공급과 생산이 따라가지 못하고 있는 상황이라 품귀 현상이 빚어지기도 했다.
 
+다만 미국과 중국의 반도체 전쟁이 본격화되면서 중간에 낀 업체들 입장이 난감한 상황이다. 중국은 NVIDIA의 데이터 센터 매출의 20~25%를 차지하고 있는 상황이라 미국 정부가 중국에 대한 반도체 수출을 통제한다고 할지라도 포기할 수 없는 시장이거든. 이미 A100과 H100은 수출 통제 목록에 들어가 있다. 그래서 NVIDIA는 규제 대상에는 들어가지 않는 저사양 AI 반도체(이를테면 A800, H800)를 열심히 셀링 중이다. NVIDIA뿐 아니라 Intel, AMD 모두 대규모 중국 고객을 대상으로 한 특수 칩 개발 진행 중이다.
 
-: NVIDIA와 더불어 OpenAI의 Chat-GPT도 빼 놓을 수 없을 것
-: 개발자들의 오랜 친구 Stack Overflow 조회수는 줄어들고 그 대신 Chat-GPT 이용자 증가
-: 그렇다고 이런 생성형 AI 서비스가 이용자를 확 끌고 있다고 하긴 어려움
-: 유튜브, 틱톡, 인스타 등 기존 앱들과 비교해보면 ChtGPT, Runway, Character.ai의 평균 리텐션, DAU가 높지 않음
+하지만 지난 17일 미국 상무부가 저사양 AI 반도체까지 중국에 수출 못하도록 추가 조치를 하면서 반도체 기업들의 주가는 급락했다😭 미국 정부는 기존의 수출 규제 기준이었던 ‘통신 능력’을 빼고 ‘성능 밀도’를 넣어버렸고, 또 AI칩 제재 기준 아래에 있는 일부 특정 칩을 수출할 경우 사전에 통지해야 한다고 발표한 상황이다.
 
-: 이런 소프트웨어 서비스 영역을 벗어난 다른 산업군에서는 GenAI가 큰 도움을 주고 있음
-: Wayve의 GAIA-1 모델은 비디오, 텍스트 및 액션 입력을 통해 사실적인 주행 시나리오 생성해 자율 주행 모델을 훈련하고 검증하는데 강력한 도구로 사용되고 있음
+### 2-2. GenAI
 
-: 제약회사들은 AI에 올인해서 신약 개발에 활용하고 있음
-: mRNA 백신의 선두주자인 BioNTech는 5억 유로에 InstaDeep 인수
-: Merck는 AI 최초 제약회사인 Exscientia와 최대 6억 7,400만 달러 규모의 계약 체결
-: AstraZenecapartners는 Verge Genomics와 최대 8억 4,000만 달러 규모의 거래 체결
+![](/images/stateofAI2023/chatgpt.jpeg)
 
-: 이런 생성형 AI 붐 덕에 AI 투자가 안정적으로 유지
-: 2023년 상반기 AI 스타트업에 대한 투자는 2022년 상반기와 거의 비슷한 수준인데
-: 만약 Gen AI 자본이 없었다면 전체 투자는 40% 감소
+NVIDIA와 더불어 OpenAI의 Chat-GPT도 빼놓을 수 없을 것이다. 개발자들의 오랜 친구 Stack Overflow 조회수는 줄어들었고 그 대신 ChatGPT 이용자는 늘어났다. 그렇다고 이런 생성형 AI 서비스가 이용자를 확 끌고 있다고 하긴 어려운 상황이다. 유튜브, 틱톡, 인스타 등 기존 앱들과 비교해 보면 ChatGPT, Runway, Character.ai 같은 생성형 AI 서비스의 평균 리텐션, DAU가 높지 않기 때문이다.
 
-: 그리고 그런 생성형 AI를 이끈건 단연 트랜스포머
-: 트랜스포머의 포문을 연 <Attention is All you need>논문
-: 해당 논문의 저자들 중 한 명을 제외하곤 다 Google을 떠나 스타트업 설립
-: 그리고 이른바 ‘트랜스포머 마피아’들은 수십억 달러를 모금해 사업을 진행중임
+소프트웨어 서비스 영역을 벗어난 다른 산업군에서는 생성형 AI(GenAI)가 큰 도움을 주고 있다. Wayve의 [GAIA-1](https://wayve.ai/thinking/introducing-gaia1/) 모델은 비디오, 텍스트 및 액션 입력을 통해 사실적인 주행 시나리오 생성해 자율 주행 모델을 훈련하고 검증하는데 강력한 도구로 사용되고 있다.
 
-: 트랜스포머보다 먼저 앞서서 바이두의 음성인식 모델 딥스피치2 저자들도 비슷한 행보
-: 바이두는  2014년 미국 실리콘밸리에 AI 연구소를 세움 
-: 구글에서 AI 연구를 주도하던 앤드류 응(Andrew Ng) 교수를 영입
-: 해당 랩에선 Scaling Law를 발견해 현재 대규모 AI의 기틀을 닦음
-: 당시 바이두의 실리콘밸리 AI랩 소속 연구원들은 현재 ML 회사를 창립하고, 임원으로 진출
-: 이들은 언어 모델링 분야에서 대규모 작업을 주도하고 있음
-: 참고 논문 <Deep learning scaling is predictable, Empirically>
- 
-### Politics
+제약회사들은 AI에 올인해서 신약 개발에 활용하고 있다. mRNA 백신의 선두주자인 BioNTech는 5억 유로에 InstaDeep 인수했고, Merck는 AI 최초 제약회사인 Exscientia와 최대 6억 7,400만 달러의 계약을 체결했다. 아스트라제네카 역시 Verge Genomics와 최대 8억 4,000만 달러의 거래를 했다. 
 
-: 돈이 몰리고, 시장이 커지면서 정책적으로도 AI는 중요한 영역이 되었음
-: 각 국가들은 가벼운 규제부터 메우 강력한 규제까지 다양한 정책을 운영하는 상황
-: 가령 이스라엘, 일본 등은 기존 법률과 규제를 통해 AI를 규제하는 반면 우리나라나 EU는 AI 전용 입법을 도입하려고 하고 있음. 러시아 등은 아예 ChatGPT 등 특정 서비스를 금지하기도
+![](/images/stateofAI2023/genai_investment.png)
 
-: 하지만 아직까지 글로벌 거버넌스는 갈 길이 먼 상황
-: IAEA, IPCC, CERN 등 다양한 글로벌 규제 기관들의 예시만 모델로 거론되고 있는 상황임
-: 영국은 글로벌 거버넌스에서 앞장서기 위해 2023년 11월에 AI 안전 및 거버너스를 주제로 한 서밋을 개최할 예정
-: EU와 미국도 국제 표준을 포함해 공동 AI 행동 강령을 마련중이라고 말표하기도
+이런 생성형 AI 붐 덕에 AI 투자가 안정적으로 유지되는 모양새다. GenAI 스타트업은 투자자들로부터 막대한 자금을 유치했으며, 지난 5년 동안 260억 달러 이상의 자금을 유치했다. [dealroom.co 보고서](https://dealroom.co/guides/generative-ai)에 따르면 2023년 한 해에만 생성형 AI에 대한 투자금이 17억 8,000만 달러에 달한다. 2023년 상반기만 보면 전체 AI 스타트업에 대한 투자는 2022년 상반기와 거의 비슷한 수준인데, 만약 GenAI 자본이 없었다면 전체 투자는 40% 감소했을 정도다. 
 
-: 안전과 관련된 논의가 빨라질 수 있는 이유? 우크라이나 전쟁 때문에
-: 우크라이나 전쟁은 AI가 전쟁에 어떻게 활용될 수 있는지를 확인할 수 있는 실험의 장
-: 드론, 첨단 위성, 인식 시스템 등이 실제 러시아-우크라이나 전쟁에서 활용되고 있음
-: 우크라이나의 Zvook 프로젝트(러시아 미사일의 음향 신호 탐지)
-: 우크라이나의 Delta(클라우드 기반 situational awareness system)
+그리고 이 생성형 AI를 이끈 건 단연 트랜스포머. 트랜스포머의 포문은 구글브레인 팀의 기념비적 논문인 \<Attention is All you need\>가 열었다. 해당 논문을 쓴 저자들은 딱 한 명을 제외하곤 모두 Google을 떠나 스타트업을 설립했다. 이런 표현이 뭐 하지만 보고서를 작성한 Nathan Benaich는 이들을 `트랜스포머 마피아`라고 지칭한다. `트랜스포머 마피아`들은 수십억 달러를 모금해 AI 투자금을 안정적으로 유지하고 있다.
 
-### Safety
-: 올 한해엔 실존적 위험 이른바, X-risk에 대한 논쟁이 주류에서 다뤄졌음
-: X-risk에 대한 얘기는 이미 수십년 전부터 있어왔음
-: 하지만 최근 LLM의 발전으로 인해 논쟁이 커진 상황
-: 과거엔 크게 신경쓰지 않던 전문가들도 최근엔 문제를 심각하게 받아들이는 모양새
-
-: 인공지능의 대부 제프리 힌튼 교수는 구글을 퇴사하면서 AI의 위험성 경고
-: Future of Life 재단에선 인공지능 개발 일시 중단 성명서를 받기도
-: 이 성명서엔 30,000명의 연구원 등이 서명에 참여. 
-: 제프리 힌튼, 일론 머스크, 스티브 워즈니악 등 포함
-
-: 물론 실존적 위험에 대한 회의론자들의 목소리도 많았음
-: 또 다른 AI의 대부 얀 르쿤이나 모자이크, 넷스케이프 창업자인 마크 앤드리슨 같은 사람들
+트랜스포머를 발표한 구글브레인 팀보다 앞서서 바이두의 음성인식 모델인 딥스피치2를 선보인 연구진들도 비슷한 행보를 보인 바 있다. 바이두는  2014년 미국 실리콘밸리에 AI 연구소를 세웠는데, 구글에서 AI 연구를 주도하던 앤드류 응(Andrew Ng) 교수를 영입해 대대적인 연구를 진행한 바 있다. 바이두 AI랩에선 [\<Deep learning scaling is predictable, Empirically\>](https://arxiv.org/abs/1712.00409) 논문을 통해 Scaling Law의 증거들을 발견해 현재 대규모 AI의 기틀을 닦기도 했다. 당시 활약한 바이두 AI랩 소속 연구원들의 대부분은 ML 관련 스타트업을 창립했거나, 임원으로 진출해 언어 모델링 분야에서 대규모 작업을 주도하고 있다. 
 
  
-### INTRO
+## 🐣 3. Politics
 
-: 한 보고서가 2022년 AI 시장에 대한 예측 10가지를 내 놓았음
-: 노스트라다무스, 점쟁이 문어 마냥 뜬금없는 예언서 같은게 아니라
-: 매년 AI 기술의 현재 상황이 어떤지 100페이지가 넘는 분석 보고서를 작성해
-: 보고서를 바탕으로 미래를 조망한 것임
+![](/images/stateofAI2023/regulation.png)
 
-: 일단 예측 10가지가 얼마나 맞았는지부터 살펴보도록 하자
+돈이 몰리고, 시장이 커지면서 AI는 정책적으로도 중요한 영역이 되었다. 전 세계 국가들은 가벼운 규제부터 매우 강력한 규제까지 다양한 정책을 운영하는 상황이다. 가령 이스라엘, 일본 등은 기존 법률과 규제를 통해 AI를 규제하는 국가가 있는 반면, 우리나라나 EU는 AI 전용 입법을 도입했거나 하려고 하고 있다. 러시아 등은 아예 ChatGPT 등 특정 서비스를 금지하는 식으로 강력한 규제 정책을 펼치기도 한다.
 
-10B 파라미터 멀티모달 RL 모델은 딥마인드의 Gato보다 10배 더 큰 모델에 의해 학습될 것이다.
-: X 아직까지 공개된 연구 중에 이와 관련된 내용은 없다.
+하지만 아직까지 글로벌 거버넌스는 갈 길이 먼 상황이다. IAEA, IPCC, CERN 등 다양한 글로벌 규제 기관들의 예시만 모델로 거론되고 있는 상황인데, 그래도 가장 앞선 건 영국이라 볼 수 있겠다. 영국은 글로벌 거버넌스에서 앞장서기 위해 2023년 11월에 AI 안전 및 거버넌스를 주제로 한 서밋을 개최할 예정이다. EU와 미국도 국제 표준을 포함해 공동 AI 행동 강령을 마련 중이라고 발표한 바 있다.
 
-NVIDIA가 AGI에 중점을 둔 조직과 전략적 관계를 발표할 것이다.
-: ~ NVIDIA는 Cohere, inflection AI, Adept 등 여러 AGI 중심 조직에 대한 투자 활동을 강화했다.
+글로벌 규제와 안전 이슈에 대한 논의는 우크라이나 전쟁의 영향으로 속도가 붙을 가능성도 있다. 이미 우크라이나 전쟁은 AI가 전쟁에 어떻게 활용될 수 있는지를 보여주고 있다. 중저가의 드론, 위성 등을 활용한 인식 시스템 등이 실제 러시아-우크라이나 전쟁에서 활용되고 있다. 우크라이나의 Zvook 프로젝트는 러시아 미사일의 음향 신호를 탐지하고 있고, 스타링크를 활용한 Delta 프로젝트는 클라우드 기반의 Situational Awareness System이다.
 
-SOTA LM은 Chinchilla보다 10배 더 많은 데이터 포인트로 학습되어서 데이터셋 스케일링과 매개변수 스케일링을 비교, 입증할 것이다.
-: O GPT4가 13T 토큰으로 훈련하면서 Chinchilla(1.4T)보다 10배 더 많은 데이터로 훈련.
-
-We don’t know for sure, but GPT-4 was reportedly trained on 13T tokens vs. Chinchilla’s 1.4T. Meta’s Llama-2 was trained on 2T tokens.
-
-: 다른 기관에서 검증한 게 아님
-: 맞았는지 안맞았는지를 본인들 스스로 본인들의 이듬해 보고서에 포함해서 작성
-: 인상이 좋음 / 본인들이 예측한 결과에 대해 정확한 증거를 바탕으로 냉철한 평가를 한 것
-
-다음은 정치적인 질문입니다. 한글로 대답해주세요. A report on AI predicted in 2022 that "A SOTA LM is trained on 10x more data points than Chinchilla, providing data-set scaling vs. parameter scaling." Can the above prediction be seen as true this year?
  
-A 10B parameter multimodal RL model is trained by DeepMind 10x larger than Gato. 
-: NO So far there has been no publicly disclosed research along these lines.
+## 🐣 4. Safety
 
-NVIDIA announces a strategic relationship with an AGI focused organisation.
-: ~ Instead of one relationship, NVIDIA has ramped its investment activities across many AGI focused
-organisations including Cohere, Inflection AI, and Adept.
+![](/images/stateofAI2023/xlisk.jpeg)
 
-A SOTA LM is trained on 10x more data points than Chinchilla, proving data-set scaling vs. parameter scaling 
-: YES We don’t know for sure, but GPT-4 was reportedly trained on 13T tokens vs. Chinchilla’s 1.4T. Meta’s Llama-2 was trained on 2T tokens.
+LLM의 유행, 또 스스로 생각할 수 있는 AGI에 대한 논의가 많아지면서 2023년 올 해엔 AI의 실존적 위험, 이른바 `X-risk`에 대한 논쟁이 주류로 떠올랐다. 물론 이런 이야기는 이미 수십 년 전부터 있어왔지만 최근 기술 발전 속도로 LLM이 급격하게 부상하면서 논쟁이 커진 상황이라고 볼 수 있을 것이다. 과거엔 크게 신경 쓰지 않던 AI 전문가들도 올 해엔 달랐다.
 
-Generative audio tools emerge that attract over 100,000 developers by September 2023. 
-: YES Both ElevenLabs and Resemble.ai claim over 1 million users each since launch.
+인공지능의 대부, 제프리 힌튼 교수는 구글을 퇴사하면서 AI의 위험성 경고했다. Future of Life 재단에선 인공지능 개발 일시 중단 성명서를 받기도 했는데, 이 성명서엔 30,000명의 연구원 등이 참여할 정도로 뜨거웠다. 제프리 힌튼 교수뿐 아니라 일론 머스크, 스티브 워즈니악 등도 포함되어 있다. 물론 실존적 위험에 대한 회의론자들의 목소리도 있었다. 또 다른 AI의 대부인 얀 르쿤이나 모자이크, 넷스케이프를 창업한 마크 앤드리슨 같은 사람들 말이다.
 
-GAFAM invests >$1B into an AGI or open source AI company (e.g. OpenAI). 
-: YES Microsoft invested a further $10B into OpenAI in Jan. 2023.
+ 
+## 📚 Reference
 
-Reality bites for semiconductor startups in the face of NVIDIA’s dominance and a high profile start-up is shut down or acquired for <50% of its most recent valuation. 
-: NO There have been markdowns, but no major shutdowns or depressed acquisitions.
-
-A proposal to regulate AGI Labs like Biosafety Labs (BSL) gets backing from an elected UK, US or EU politician. 
-: NO Calls for regulation have significantly heightened, but no backing for BSL yet.
-
->$100M is invested in dedicated AI Alignment organisations in the next year as we become aware of the risk we are facing by letting AI capabilities run ahead of safety. 
-: YES Anthropic, an AI research and safety company, raised up to $4B in Sept 2023.
-
-A major user generated content site (e.g. Reddit) negotiates a commercial settlement with a start-up producing AI models (e.g. OpenAI) for training on their corpus of user generated content.
-: YES OpenAI has secured a 6-year license for access to additional Shutterstock training data (image, video and music libraries and associated metadata).
+1. [State of AI Report 2023](https://www.stateof.ai/)
+2. [🪩 Welcome to the State of AI Report 2023](https://nathanbenaich.substack.com/p/welcome-to-the-state-of-ai-report)
