@@ -70,7 +70,7 @@ BLADE는 Biased Locally Adaptive Direction awarE라는 이름을 가진 알고�
 
 아마존에선 이 부분의 최적화를 위해 adaptive sampling 기술을 적용했다. 시드 노드의 degree에 따라 이웃 샘플의 크기를 locally 조정하는 거다. 만약 시드 노드의 degree가 낮으면 이웃 샘플링을 더 크게, degree가 높으면 이웃 샘플링을 더 적게 하는 식으로 말이다. 이 논리는 BLADE(Biased Locally Adaptive Direction awarE)의 이름에 오롯이 담겨 있다. 
 
-물론 GAT(Graph Attention)를 활용하면 노드마다 다른 가중치를 암시적으로 지정할 수 있다. 하지만 Attention 가중치는 노드의 이웃 feature를 기반으로 계산되는지라 그래프의 구조적 특성을 반영할 수 없다는 한계가 있다. 하지만 BLADE는 이 한계를 극복한다고 저자들은 설명한다.
+물론 GAT(Graph Attention)를 활용하면 노드마다 다른 가중치를 암시적으로 지정할 수 있다. 하지만 Attention 가중치는 노드의 이웃 feature를 기반으로 계산되는지라 그래프의 구조적 특성을 반영할 수 없다는 한계가 있다. 하지만 저자들은 BLADE가 이 한계를 극복한다고 설명한다.
 
 ## 📚 Reference
 
